@@ -1,0 +1,372 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <h1 style="text-align: center; font-weight: 600;"><b>User Profile</b></h1>
+
+    <div
+        style="text-align: center; width: 40%; margin: 0 auto; border: 1px solid #ddd; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+        <form id="profileForm" method="POST" action="{% url 'update_profile' %}">
+            {% csrf_token %}
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">Citizen ID:</span>
+                <span>{{citizen_result.citizen_id}}</span>
+                <input type="hidden" name="citizen_id" value="{{citizen_result.citizen_id}}">
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">Name:</span>
+                <span id="name-display">{{citizen_result.name}}</span>
+                <input type="text" id="name-edit" name="name" value="{{citizen_result.name}}" style="display:none; width:70%; padding:5px; text-align:center;">
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">House Number:</span>
+                <span id="house-display">{{citizen_result.house_number}}</span>
+                <input type="text" id="house-edit" name="house_number" value="{{citizen_result.house_number}}" style="display:none; width:70%; padding:5px; text-align:center;">
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">Aadhar Number:</span>
+                <span id="aadhar-display">{{citizen_result.aadhar_number}}</span>
+                <input type="text" id="aadhar-edit" name="aadhar_number" value="{{citizen_result.aadhar_number}}" style="display:none; width:70%; padding:5px; text-align:center;">
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">Role:</span>
+                <span id="aadhar-display">{{request.session.role}}</span>
+                <input type="text" id="aadhar-edit" name="aadhar_number" value="{{citizen_result.aadhar_number}}" style="display:none; width:70%; padding:5px; text-align:center;">
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">DOB:</span>
+                <span id="dob-display">{{citizen_result.date_of_birth}}</span>
+                <input type="date" id="dob-edit" name="date_of_birth" value="{{citizen_result.date_of_birth|date:'Y-m-d'}}" style="display:none; width:70%; padding:5px; text-align:center;">
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">Occupation:</span>
+                <span id="occupation-display">{{citizen_result.occupation}}</span>
+                <input type="text" id="occupation-edit" name="occupation" value="{{citizen_result.occupation}}" style="display:none; width:70%; padding:5px; text-align:center;">
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">Village name:</span>
+                <span>{{citizen_result.village_name}}</span>
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">District:</span>
+                <span>{{citizen_result.district}}</span>
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">State:</span>
+                <span>{{citizen_result.state}}</span>
+            </div>
+            <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                <span style="font-weight: bold;">Pincode:</span>
+                <span>{{citizen_result.pincode}}</span>
+            </div>
+
+            {% if request.session.role in "employee" %}
+                <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                    <span style="font-weight: bold;">Employee ID:</span>
+                    <span>{{employee_result.employee_id}}</span>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                    <span style="font-weight: bold;">Designation:</span>
+                    <span>{{employee_result.designation}}</span>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                    <span style="font-weight: bold;">Joining-Date:</span>
+                    <span>{{employee_result.joining_date}}</span>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                    <span style="font-weight: bold;">Department:</span>
+                    <span>{{employee_result.department}}</span>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                    <span style="font-weight: bold;">Education:</span>
+                    <span>{{employee_result.education}}</span>
+                </div>
+            {% endif %}
+
+            {% if request.session.role in "government_monitor" %}
+                <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                    <span style="font-weight: bold;">Government Monitor ID:</span>
+                    <span>{{gm_result.monitor_id}}</span>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                    <span style="font-weight: bold;">Designation:</span>
+                    <span>{{gm_result.designation}}</span>
+                </div>
+                <div style="margin-bottom: 10px; font-size: 16px; text-align: center;">
+                    <span style="font-weight: bold;">Department:</span>
+                    <span>{{gm_result.department}}</span>
+                </div>
+            {% endif %}
+
+            <div style="margin-top: 20px;">
+                <button type="button" id="editBtn" class="btn btn-primary" onclick="toggleEdit()" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">Edit Profile</button>
+                <button type="submit" id="saveBtn" class="btn btn-success" style="display:none; background-color: #008CBA; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Save Changes</button>
+                <button type="button" id="cancelBtn" class="btn btn-danger" onclick="cancelEdit()" style="display:none; background-color: #f44336; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Rest of the tables remain unchanged -->
+<div class="dashboard">
+    <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Tax Records</h1>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+        <thead>
+            <tr style="background-color: #f5f5f5;">
+                <th style="padding: 12px; border: 1px solid #ddd;">Tax Type</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Amount</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Due Date</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Payment Date</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Status</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Payment Method</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tax in tax_records %}
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{tax.tax_type}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">₹{{tax.amount}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{tax.due_date|date:"M d, Y"}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">
+                    {% if tax.payment_date %}
+                    {{tax.payment_date|date:"M d, Y"}}
+                    {% else %}
+                    -
+                    {% endif %}
+                </td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{tax.payment_status}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{tax.payment_method|default:"-"}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="padding: 12px; text-align: center; border: 1px solid #ddd;">
+                    No tax records available
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Remaining dashboard sections remain unchanged -->
+<div class="dashboard">
+    <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Certificates</h1>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+        <thead>
+            <tr style="background-color: #f5f5f5;">
+                <th style="padding: 12px; border: 1px solid #ddd;">Certificate Type</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Issue Date</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Valid Until</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for certificate in certificates %}
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{certificate.certificate_type}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{certificate.issue_date|date:"Y-m-d"}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{certificate.valid_until|date:"Y-m-d"}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" style="padding: 12px; text-align: center; border: 1px solid #ddd;">
+                    No certificates issued
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="dashboard">
+    <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Property Records</h1>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+        <thead>
+            <tr style="background-color: #f5f5f5;">
+                <th style="padding: 12px; border: 1px solid #ddd;">Property</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Type</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Area (sqft)</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Survey No.</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Registration Date</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for property in property_records %}
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{property.name}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{property.property_type}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{property.area}} sqft</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{property.survey_num}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{property.registration_date}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">₹{{property.value}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="padding: 12px; text-align: center; border: 1px solid #ddd;">
+                    No property records found
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="dashboard">
+    <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Government Schemes</h1>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+        <thead>
+            <tr style="background-color: #f5f5f5;">
+                <th style="padding: 12px; border: 1px solid #ddd;">Scheme Name</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Start Date</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">End Date</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Eligibility Criteria</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for scheme in schemes %}
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{scheme.name}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{scheme.start_date|date:"Y-m-d"}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{scheme.end_date|date:"Y-m-d"}}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{scheme.criteria}}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="padding: 12px; text-align: center; border: 1px solid #ddd;">
+                    No active schemes available
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="dashboard">
+    <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Complaint Records</h1>
+
+    <!-- Complaint Form -->
+    <form id="complaint-form" method="POST" action="{% url 'add_complaint' %}" style="margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px;">
+        {% csrf_token %}
+        <label for="complaint_type" style="font-weight: 600;">Complaint Type:</label>
+        <input type="text" name="complaint_type" id="complaint_type" required style="margin-bottom: 10px; width: 100%; padding: 8px;">
+
+        <label for="description" style="font-weight: 600;">Description:</label>
+        <textarea name="description" id="description" required style="margin-bottom: 10px; width: 100%; padding: 8px;"></textarea>
+
+        <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px; border: none; cursor: pointer;">
+            Submit Complaint
+        </button>
+    </form>
+
+    <!-- Complaint List -->
+    <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+        <thead>
+            <tr style="background-color: #f5f5f5;">
+                <th style="padding: 12px; border: 1px solid #ddd;">Description</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Type</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Date Filed</th>
+                <th style="padding: 12px; border: 1px solid #ddd;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for complaint in complaints %}
+            <tr id="complaint-{{ complaint.complaint_id }}">
+                <td style="padding: 12px; border: 1px solid #ddd;">{{ complaint.description }}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{ complaint.get_complaint_type_display }}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">{{ complaint.complaint_date|date:"M d, Y" }}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">
+                    <button class="delete-btn" data-id="{{ complaint.complaint_id }}" 
+                        style="background-color: red; color: white; padding: 5px; border: none; cursor: pointer;">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="padding: 12px; text-align: center; border: 1px solid #ddd;">
+                    No complaints registered
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+
+
+<script>
+    function toggleEdit() {
+        // Show edit fields and hide display spans
+        document.getElementById('name-display').style.display = 'none';
+        document.getElementById('name-edit').style.display = 'inline-block';
+        
+        document.getElementById('house-display').style.display = 'none';
+        document.getElementById('house-edit').style.display = 'inline-block';
+        
+        document.getElementById('aadhar-display').style.display = 'none';
+        document.getElementById('aadhar-edit').style.display = 'inline-block';
+        
+        document.getElementById('dob-display').style.display = 'none';
+        document.getElementById('dob-edit').style.display = 'inline-block';
+        
+        document.getElementById('occupation-display').style.display = 'none';
+        document.getElementById('occupation-edit').style.display = 'inline-block';
+        
+        // Show save and cancel buttons, hide edit button
+        document.getElementById('saveBtn').style.display = 'inline-block';
+        document.getElementById('cancelBtn').style.display = 'inline-block';
+        document.getElementById('editBtn').style.display = 'none';
+    }
+    
+    function cancelEdit() {
+        // Hide edit fields and show display spans
+        document.getElementById('name-display').style.display = 'inline-block';
+        document.getElementById('name-edit').style.display = 'none';
+        
+        document.getElementById('house-display').style.display = 'inline-block';
+        document.getElementById('house-edit').style.display = 'none';
+        
+        document.getElementById('aadhar-display').style.display = 'inline-block';
+        document.getElementById('aadhar-edit').style.display = 'none';
+        
+        document.getElementById('dob-display').style.display = 'inline-block';
+        document.getElementById('dob-edit').style.display = 'none';
+        
+        document.getElementById('occupation-display').style.display = 'inline-block';
+        document.getElementById('occupation-edit').style.display = 'none';
+        
+        // Hide save and cancel buttons, show edit button
+        document.getElementById('saveBtn').style.display = 'none';
+        document.getElementById('cancelBtn').style.display = 'none';
+        document.getElementById('editBtn').style.display = 'inline-block';
+    }
+
+    document.querySelectorAll(".delete-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            const complaintId = this.dataset.id;
+    
+            fetch(`/remove-complaint/`, {  // Ensure this matches Django's URL pattern
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: `complaint_id=${complaintId}`
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      document.getElementById(`complaint-${complaintId}`).remove();
+                  } else {
+                      alert("Failed to delete complaint.");
+                  }
+              });
+        });
+    });
+</script>
+
+{% endblock %}

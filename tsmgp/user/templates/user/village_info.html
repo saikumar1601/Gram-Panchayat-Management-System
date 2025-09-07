@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Village Educational Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Schools</th>
+                <th>Colleges</th>
+                <th>Students</th>
+                <th>Teachers</th>
+                <th>Literacy Rate (%)</th>
+                <th>Record Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in education_data %}
+            <tr>
+                <td>{{ record.schools }}</td>
+                <td>{{ record.colleges }}</td>
+                <td>{{ record.students }}</td>
+                <td>{{ record.teachers }}</td>
+                <td>{{ record.literacy_rate }}</td>
+                <td>{{ record.record_date }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">No education data available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Village Agricultural Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Total Agricultural Land</th>
+                <th>Irrigated Land</th>
+                <th>Major Crops</th>
+                <th>Farmers Count</th>
+                <th>Subsidy Amount</th>
+                <th>Record Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in agriculture_data %}
+            <tr>
+                <td>{{ record.total_agricultural_land }}</td>
+                <td>{{ record.irrigated_land }}</td>
+                <td>{{ record.major_crops }}</td>
+                <td>{{ record.farmers_count }}</td>
+                <td>{{ record.subsidy_amount }}</td>
+                <td>{{ record.record_date }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6">No agriculture data available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Village Health Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Healthcare Facilities</th>
+                <th>Doctors</th>
+                <th>Nurses</th>
+                <th>Beds</th>
+                <th>Patients Treated</th>
+                <th>Vaccination Count</th>
+                <th>Record Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in health_data %}
+            <tr>
+                <td>{{ record.healthcare_facilities }}</td>
+                <td>{{ record.doctors }}</td>
+                <td>{{ record.nurses }}</td>
+                <td>{{ record.beds }}</td>
+                <td>{{ record.patients_treated }}</td>
+                <td>{{ record.vaccination_count }}</td>
+                <td>{{ record.record_date }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7">No health data available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

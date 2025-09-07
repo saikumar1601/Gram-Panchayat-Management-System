@@ -1,0 +1,36 @@
+{% extends "user/base.html" %}
+
+{% block title %}Query Results{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Query Results</h2>
+
+    <p><strong>Executed SQL:</strong> {{ query_sql }}</p>
+
+    {% if query_results %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                {% for column in column_names %}
+                <th>{{ column }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in query_results %}
+            <tr>
+                {% for value in row %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
+
+    <a href="{% url 'advanced_query_step1' %}" class="btn btn-primary">Start New Query</a>
+</div>
+{% endblock %}

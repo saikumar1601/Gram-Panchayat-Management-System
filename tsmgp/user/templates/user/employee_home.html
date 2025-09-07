@@ -1,0 +1,83 @@
+{% extends "user/base.html" %}
+
+{% block title %}Employee's HomePage{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="row mb-4">
+    <div class="col-md-12 text-center">
+        <h1 class="display-4">Employee's HomePage</h1>
+        <p class="lead">This is a sample home page with random content to demonstrate template inheritance.</p>
+    </div>
+</div>
+
+<!-- Featured Content -->
+<div class="row mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Basic Query</h5>
+                <p class="card-text">Simple database queries for single tables with basic filtering.</p>
+                <a href="{% url 'employee_query' %}" class="btn btn-primary">Basic Query</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Advanced Query</h5>
+                <p class="card-text">Complex queries with multiple table joins, custom filtering, and column selection.
+                </p>
+                <a href="{% url 'advanced_query_begin' %}" class="btn btn-primary">Advanced Query</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Insert Data</h5>
+                <p class="card-text">Click here to insert data</p>
+                <a href="{% url 'employee_insert' %}" class="btn btn-primary">Insert</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Modify Data</h5>
+                <p class="card-text">Click here to modify data</p>
+                <a href="{% url 'employee_modify' %}" class="btn btn-primary">Modify</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Delete Data</h5>
+                <p class="card-text">Click here to modify data</p>
+                <a href="{% url 'employee_delete' %}" class="btn btn-primary">Modify</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional Section -->
+<div class="row" id="about-section">
+    <div class="col-md-6">
+        <h3>About Our Platform</h3>
+        <p>
+            This is a sample platform for managing employee data. It provides basic CRUD operations for employee
+            information stored in a database. The platform is built using Django and Bootstrap.
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h3>Latest Updates</h3>
+        <ul class="list-group">
+            <li class="list-group-item">New feature released: Interactive dashboard</li>
+            <li class="list-group-item">System maintenance scheduled for next week</li>
+            <li class="list-group-item">Check out our updated documentation</li>
+            <li class="list-group-item">Community meetup this Friday</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

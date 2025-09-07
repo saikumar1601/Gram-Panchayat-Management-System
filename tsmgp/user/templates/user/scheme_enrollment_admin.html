@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheme Enrollment Management</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Scheme Enrollment Data</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Enrollment ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Scheme ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Citizen ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Enrollment Date</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Status</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Benefit Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in enrollments %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.enrollment_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.scheme_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.citizen_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.enrollment_date }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.status }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.benefit_amount }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align:center; padding:12px;">
+                        No enrollments found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

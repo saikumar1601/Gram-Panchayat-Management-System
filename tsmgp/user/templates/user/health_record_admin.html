@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Record Management</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Health Record Data</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Health ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Village ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Record Date</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Healthcare Facilities</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Doctors</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Nurses</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Beds</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Patients Treated</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Vaccination Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for h in health_records %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ h.health_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ h.village_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ h.record_date }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ h.healthcare_facilities }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ h.doctors }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ h.nurses }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ h.beds }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ h.patients_treated }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ h.vaccination_count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" style="text-align:center; padding:12px;">
+                        No health records found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

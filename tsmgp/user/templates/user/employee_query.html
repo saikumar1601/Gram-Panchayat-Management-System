@@ -1,0 +1,192 @@
+{% extends "user/base.html" %}
+
+{% block title %}Employee Database Query{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Panchayat Database Query Tool</h1>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Query Builder</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'employee_query' %}">
+                        {% csrf_token %}
+                        
+                        <div class="form-group mb-3">
+                            <label for="table_selection">Select Table:</label>
+                            <select class="form-control" id="table_selection" name="table_selection">
+                                <option value="citizen">Citizen</option>
+                                <option value="village">Village</option>
+                                <option value="tax_record">Tax Records</option>
+                                <option value="certificate">Certificates</option>
+                                <option value="property">Property</option>
+                                <option value="complaint">Complaints</option>
+                                <option value="scheme">Schemes</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="filter_field">Filter By Field (Optional):</label>
+                            <select class="form-control" id="filter_field" name="filter_field">
+                                <option value="">-- No Filter --</option>
+                                <!-- Dynamic options will be added with JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="comparison_operator">Comparison Operator:</label>
+                            <select class="form-control" id="comparison_operator" name="comparison_operator">
+                                <option value="=">= (Equal to)</option>
+                                <option value="<">< (Less than)</option>
+                                <option value=">">› (Greater than)</option>
+                                <option value="<="><= (Less than or equal to)</option>
+                                <option value=">=">›= (Greater than or equal to)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="filter_value">Filter Value:</label>
+                            <input type="text" class="form-control" id="filter_value" name="filter_value" placeholder="Enter value to filter by">
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="limit">Result Limit:</label>
+                            <input type="number" class="form-control" id="limit" name="limit" value="100" min="1" max="1000">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Run Query</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card mt-3">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">Saved Queries</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">Pending Tax Payments</a>
+                        <a href="#" class="list-group-item list-group-item-action">Recent Certificates</a>
+                        <a href="#" class="list-group-item list-group-item-action">Village Statistics</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title mb-0">Query Results</h5>
+                </div>
+                <div class="card-body">
+                    {% if error_message %}
+                        <div class="alert alert-danger">{{ error_message }}</div>
+                    {% endif %}
+                    
+                    {% if query_results %}
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        {% for column in column_names %}
+                                            <th>{{ column|title }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in query_results %}
+                                        <tr>
+                                            {% for value in row %}
+                                                <td>{{ value }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-success">Export to CSV</a>
+                            <a href="#" class="btn btn-info">Save Query</a>
+                        </div>
+                    {% else %}
+                        {% if query_executed %}
+                            <div class="alert alert-info">No results found for your query.</div>
+                        {% else %}
+                            <p class="text-muted">Select a table and run a query to see results.</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tableMapping = {
+            'village' : ['village_id','village_name','district','state','population','area','pincode'],
+            'citizen': ['citizen_id', 'user_id', 'village_id', 'name', 'house_number', 'aadhar_number', 'date_of_birth', 'gender', 'occupation'],
+            'panchayat_employee': ['employee_id', 'user_id', 'name', 'designation', 'joining_date', 'department', 'education'],
+            'government_monitor': ['monitor_id', 'user_id', 'name', 'department', 'designation'],
+            'scheme': ['scheme_id', 'scheme_name','description','criteria','start_date', 'end_date', 'budget_allocated'],
+            'scheme_enrollment': ['enrollment_id', 'scheme_id','citizen_id','enrollment_date', 'status', 'benefit_amount'],
+            'complaint': ['complaint_id', 'citizen_id', 'complaint_type', 'description', 'complaint_date'],
+            'certificate': ['certificate_id', 'citizen_id', 'certificate_type', 'issue_date', 'valid_until'],
+            'tax_record': ['tax_id', 'citizen_id', 'tax_type', 'amount', 'due_date', 'payment_date', 'payment_status', 'payment_method'],
+            'property': ['property_id', 'citizen_id', 'property_type', 'address', 'p_area', 'survey_number', 'registry_date', 'value'],
+            'notice': ['notice_id', 'title', 'content', 'notice_date', 'expiry_date', 'employee_id'],
+            'health_record': ['health_id', 'village_id', 'record_date', 'healthcare_facilities', 'doctors', 'nurses','beds','patients_treated','vaccination_count'],
+            'education_record': ['education_id', 'village_id', 'record_date', 'schools', 'colleges', 'students','teachers','literacy_rate'],
+            'agriculture_record': ['agriculture_id', 'village_id', 'record_date', 'total_agricultural_land', 'irrigated_land', 'major_crops','farmers_count','subsidy_amount'],
+        };
+        
+        const tableSelect = document.getElementById('table_selection');
+        const filterField = document.getElementById('filter_field');
+        const comparisonOperator = document.getElementById('comparison_operator');
+        const filterValue = document.getElementById('filter_value');
+        
+        // Function to update filter fields based on table selection
+        function updateFilterFields() {
+            const selectedTable = tableSelect.value;
+            const fields = tableMapping[selectedTable] || [];
+            
+            // Clear existing options
+            filterField.innerHTML = '<option value="">-- No Filter --</option>';
+            
+            // Add new options
+            fields.forEach(field => {
+                const option = document.createElement('option');
+                option.value = field;
+                option.textContent = field.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+                filterField.appendChild(option);
+            });
+        }
+        
+        // Initialize filter fields
+        updateFilterFields();
+        
+        // Update filter fields when table selection changes
+        tableSelect.addEventListener('change', updateFilterFields);
+        
+        // Disable comparison operator if no filter field is selected
+        filterField.addEventListener('change', function() {
+            const isFilterSelected = filterField.value !== '';
+            comparisonOperator.disabled = !isFilterSelected;
+            filterValue.disabled = !isFilterSelected;
+            
+            if (!isFilterSelected) {
+                filterValue.value = '';
+            }
+        });
+        
+        // Initial check
+        comparisonOperator.disabled = filterField.value === '';
+        filterValue.disabled = filterField.value === '';
+    });
+</script>
+{% endblock %}

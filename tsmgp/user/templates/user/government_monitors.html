@@ -1,0 +1,97 @@
+{% extends "user/base.html" %}
+
+{% block title %}Home - My Django Site{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="row mb-4">
+    <div class="col-md-12 text-center">
+        <h1 class="display-2-bold">Get the Reports related to the Panchayat</h1>
+    </div>
+</div>
+
+<!-- Featured Content -->
+<div class="row mb-5">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Village Information</h5>
+                <p class="card-text">Education Report, Health Report and Agriculture Report</p>
+                <div class="text-center">
+                    <a href="{% url 'government_monitor_query' %}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% comment %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Schemes Report</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.</p>
+                <div class="text-center">
+                    <a href="#" class="btn btn-primary">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Environmental Report</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.</p>
+                <div class="text-center">
+                    <a href="#" class="btn btn-primary">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Census Report</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.</p>
+                <div class="text-center">
+                    <a href="#" class="btn btn-primary">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">Agricultural Report</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris.</p>
+                <div class="text-center">
+                    <a href="#" class="btn btn-primary">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endcomment %}
+</div>
+
+<!-- Additional Section -->
+<div class="row" id="about-section">
+    <div class="col-md-6">
+        <h3>About Our Platform</h3>
+        <p>
+            This integrated governance system empowers Gram Panchayat officials to streamline rural administration in
+            alignment with
+            the 73rd Constitutional Amendment. Designed to modernize grassroots governance, the platform centralizes
+            critical
+            functions including citizen record management, development project tracking, and digital certificate
+            issuance.
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h3>Latest Updates</h3>
+        <ul class="list-group">
+            <li class="list-group-item">New feature released: Interactive dashboard</li>
+            <li class="list-group-item">System maintenance scheduled for next week</li>
+            <li class="list-group-item">Check out our updated documentation</li>
+            <li class="list-group-item">Community meetup this Friday</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

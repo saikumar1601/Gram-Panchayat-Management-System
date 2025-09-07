@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Monitor Management</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Government Monitor Data</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">monitor ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">User ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">name</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">department</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">designation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in monitors %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ c.monitor_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ c.user_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{c.name }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ c.department}}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ c.designation}}</td>
+                    
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align:center; padding:12px;">
+                        No citizens found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

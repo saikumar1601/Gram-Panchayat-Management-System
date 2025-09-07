@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Record Management</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Tax Record Data</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Tax ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Citizen ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Tax Type</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Amount</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Due Date</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Payment Date</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Payment Status</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Payment Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in tax_records %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ t.tax_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ t.citizen_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ t.tax_type }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ t.amount }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ t.due_date }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ t.payment_date }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ t.payment_status }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ t.payment_method }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" style="text-align:center; padding:12px;">
+                        No tax records found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

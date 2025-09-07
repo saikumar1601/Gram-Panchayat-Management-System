@@ -1,0 +1,62 @@
+{% extends "user/base.html" %}
+
+{% block title %}Home - My Django Site{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <div class="row mb-4">
+        <div class="col-md-12 text-center">
+            <h1 class="display-4">Welcome to My Django Site</h1>
+            <p class="lead">This is a sample home page with random content to demonstrate template inheritance.</p>
+        </div>
+    </div>
+
+    <!-- Featured Content -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100"> 
+                <div class="card-body">
+                    <h5 class="card-title">Query</h5>
+                    <p class="card-text">You can query any data.</p>
+                    <a href="#" class="btn btn-primary">query</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Works</h5>
+                    <p class="card-text">Works/responsiblities related to this employee.</p>
+                    <a href="#" class="btn btn-primary">works</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Additional</h5>
+                    <p class="card-text">Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit.</p>
+                    <a href="#" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Section -->
+    <div class="row" id = "about-section">
+        <div class="col-md-6">
+            <h3>About Our Platform</h3>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+        </div>
+        <div class="col-md-6">
+            <h3>Notice board</h3>
+            <ul class="list-group">
+                <li class="list-group-item">New feature released: Interactive dashboard</li>
+                <li class="list-group-item">System maintenance scheduled for next week</li>
+                <li class="list-group-item">Check out our updated documentation</li>
+                <li class="list-group-item">Community meetup this Friday</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

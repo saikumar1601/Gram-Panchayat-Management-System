@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panchayat Employee Management</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Panchayat Employee Data</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Employee ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">User ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Name</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Designation</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Joining Date</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Department</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Education</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in employees %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.employee_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.user_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.name }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.designation }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.joining_date }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.department }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ e.education }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align:center; padding:12px;">
+                        No employees found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture Record Management</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Agriculture Record Data</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Agriculture ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Village ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Record Date</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Total Agricultural Land</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Irrigated Land</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Major Crops</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Farmers Count</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Subsidy Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in agriculture_records %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ a.agriculture_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ a.village_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ a.record_date }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ a.total_agricultural_land }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ a.irrigated_land }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ a.major_crops }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ a.farmers_count }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ a.subsidy_amount }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" style="text-align:center; padding:12px;">
+                        No agriculture records found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

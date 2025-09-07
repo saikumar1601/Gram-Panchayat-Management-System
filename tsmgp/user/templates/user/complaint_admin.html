@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Management</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Complaint Data</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Complaint ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Citizen ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Complaint Type</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Description</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Complaint Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in complaints %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ c.complaint_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ c.citizen_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ c.complaint_type }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ c.description }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ c.complaint_date }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align:center; padding:12px;">
+                        No complaints found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

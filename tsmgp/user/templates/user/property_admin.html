@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Management</title>
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1 style="text-align: center; margin: 0 auto; font-weight: 600;">Property Data</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid #ddd;">
+            <thead>
+                <tr style="background-color: #f5f5f5;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Property ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Citizen ID</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Property Type</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Address</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Area</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Survey Number</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Registry Date</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in properties %}
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ p.property_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ p.citizen_id }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ p.property_type }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ p.address }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ p.area }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ p.survey_number }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ p.registry_date }}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{{ p.value }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" style="text-align:center; padding:12px;">
+                        No properties found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

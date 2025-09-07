@@ -1,0 +1,182 @@
+{% extends "user/base.html" %}
+
+{% block title %}Government Monitor Queries{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Government Monitor Queries</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">Query Builder</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'government_monitor_query' %}">
+                        {% csrf_token %}
+                        
+                        <div class="form-group mb-3">
+                            <label for="village_name">Village Name:</label>
+                            <select class="form-control" id="village_name" name="village_name">
+                                <option value="">-- Select Village --</option>
+                                {% for village in villages %}
+                                    <option value="{{ village.village_name }}" {% if selected_village == village.village_name %}selected{% endif %}>
+                                        {{ village.village_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">Run Query</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% if form_submitted %}
+        {% if error %}
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-6">
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <!-- Village Information Display -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-10">
+                    <div class="card mb-4">
+                        <div class="card-header bg-success text-white">
+                            <h4 class="card-title mb-0">{{ selected_village }} Information (ID: {{ village_id }})</h4>
+                        </div>
+                    </div>
+                    
+                    <!-- Education Data -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="card-title mb-0">Education Records</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if education_data %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Schools</th>
+                                                <th>Colleges</th>
+                                                <th>Students</th>
+                                                <th>Teachers</th>
+                                                <th>Literacy Rate</th>
+                                                <th>Record Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for record in education_data %}
+                                                <tr>
+                                                    <td>{{ record.schools }}</td>
+                                                    <td>{{ record.colleges }}</td>
+                                                    <td>{{ record.students }}</td>
+                                                    <td>{{ record.teachers }}</td>
+                                                    <td>{{ record.literacy_rate }}%</td>
+                                                    <td>{{ record.record_date }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No education records available.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Agriculture Data -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="card-title mb-0">Agriculture Records</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if agriculture_data %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Total Agricultural Land</th>
+                                                <th>Irrigated Land</th>
+                                                <th>Major Crops</th>
+                                                <th>Farmers Count</th>
+                                                <th>Subsidy Amount</th>
+                                                <th>Record Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for record in agriculture_data %}
+                                                <tr>
+                                                    <td>{{ record.total_agricultural_land }} acres</td>
+                                                    <td>{{ record.irrigated_land }} acres</td>
+                                                    <td>{{ record.major_crops }}</td>
+                                                    <td>{{ record.farmers_count }}</td>
+                                                    <td>₹{{ record.subsidy_amount }}</td>
+                                                    <td>{{ record.record_date }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No agricultural records available.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Health Data -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="card-title mb-0">Health Records</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if health_data %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Healthcare Facilities</th>
+                                                <th>Doctors</th>
+                                                <th>Nurses</th>
+                                                <th>Beds</th>
+                                                <th>Patients Treated</th>
+                                                <th>Vaccination Count</th>
+                                                <th>Record Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for record in health_data %}
+                                                <tr>
+                                                    <td>{{ record.healthcare_facilities }}</td>
+                                                    <td>{{ record.doctors }}</td>
+                                                    <td>{{ record.nurses }}</td>
+                                                    <td>{{ record.beds }}</td>
+                                                    <td>{{ record.patients_treated }}</td>
+                                                    <td>{{ record.vaccination_count }}</td>
+                                                    <td>{{ record.record_date }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No health records available.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

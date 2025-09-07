@@ -1,0 +1,22 @@
+{% extends "user/base.html" %}
+
+{% block title %}Advanced Query - Step 1{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Select Tables</h2>
+    <form method="post" action="{% url 'advanced_query_step1' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Select Tables:</label>
+            {% for table in tables.keys %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="table_{{ table }}" name="tables" value="{{ table }}">
+                <label class="form-check-label" for="table_{{ table }}">{{ table|title }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Next</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Registration</title>
+    <link rel="stylesheet" href="{% static 'user/css/bootstrap.min.css' %}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 4.5rem;
+        }
+
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: #0d6efd;
+        }
+
+        .form-floating {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-container">
+                    <!-- Pills navs -->
+                    <ul class="nav nav-pills nav-justified mb-4" id="ex1" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="tab-login" data-bs-toggle="pill" href="#pills-login"
+                                role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="tab-register" data-bs-toggle="pill" href="#pills-register"
+                                role="tab" aria-controls="pills-register" aria-selected="false">Register</a>
+                        </li>
+                    </ul>
+                    <!-- Pills content -->
+                    <div class="tab-content">
+                        <!-- Login Form -->
+                        <div class="tab-pane fade show active" id="pills-login" role="tabpanel"
+                            aria-labelledby="tab-login">
+                            <form action="{% url 'login' %}" method="post">
+                                {% csrf_token %}
+                                <div class="text-center mb-3">
+                                    <h4 class="mb-4">Sign In</h4>
+                                </div>
+
+                                <!-- Username input -->
+                                <div class="form-floating">
+                                    <input type="text" id="loginName" name="username" class="form-control"
+                                        placeholder="Username" />
+                                    <label for="loginName">Username</label>
+                                </div>
+
+                                <!-- Password input -->
+                                <div class="form-floating">
+                                    <input type="password" id="loginPassword" name="password" class="form-control"
+                                        placeholder="Password" />
+                                    <label for="loginPassword">Password</label>
+                                </div>
+                                
+                                {% comment %} <!-- 2 column grid layout -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6 d-flex">
+                                        <!-- Checkbox -->
+                                        <div class="form-check mb-3 mb-md-0">
+                                            <input class="form-check-input" type="checkbox" value="" id="loginCheck"
+                                                checked />
+                                            <label class="form-check-label" for="loginCheck"> Remember me </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 d-flex justify-content-end">
+                                        <!-- Simple link -->
+                                        <a href="#!">Forgot password?</a>
+                                    </div>
+                                </div> {% endcomment %}
+                                
+
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-primary btn-lg w-100 mb-4">Sign in</button>
+
+                                {% if error %}
+                                    <div class="alert alert-danger text-center" role="alert">
+                                        {{ error }}
+                                    </div>
+                                {% endif %}
+
+                                <!-- Social login -->
+                                <div class="text-center">
+                                    <p>or sign in with:</p>
+                                    <a href="https://www.facebook.com" target="_blank" class="mx-1">
+                                        <img src="{% static 'user/images/facebook.png' %}" alt="Facebook"
+                                            style="width: 30px; height: 30px;">
+                                    </a>
+                                    <a href="https://www.google.com" target="_blank" class="mx-1">
+                                        <img src="{% static 'user/images/google.png' %}" alt="Google"
+                                            style="width: 30px; height: 30px;">
+                                    </a>
+                                    <a href="https://www.twitter.com" target="_blank" class="mx-1">
+                                        <img src="{% static 'user/images/twitter.png' %}" alt="Twitter"
+                                            style="width: 30px; height: 30px;">
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Registration Form -->
+                        <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
+                            <form action="{% url 'register' %}" method="post">
+                                {% csrf_token %}
+                                <div class="text-center mb-3">
+                                    <h4 class="mb-4">Create an Account</h4>
+                                </div>
+                                
+                                <!-- Username input -->
+                                <div class="form-floating">
+                                    <input type="text" id="registerUsername" name="username" class="form-control"
+                                        placeholder="Username" />
+                                    <label for="registerUsername">Username</label>
+                                </div>
+
+                                <!-- Name input -->
+                                <div class="form-floating">
+                                    <input type="text" id="registerName" name="phone" class="form-control"
+                                        placeholder="phone" />
+                                    <label for="registerPhone">phone</label>
+                                </div>
+
+
+                                <!-- Email input -->
+                                <div class="form-floating">
+                                    <input type="email" id="registerEmail" name="email" class="form-control"
+                                        placeholder="Email" />
+                                    <label for="registerEmail">Email</label>
+                                </div>
+
+                                <!-- Aadhar Number -->
+                                <div class="form-floating">
+                                    <input type="text" id="registerAadhar" name="aadhar_number" class="form-control" placeholder="Aadhar Number" />
+                                    <label for="registerAadhar">Aadhar Number</label>
+                                </div>
+
+                                <!-- Date of Birth -->
+                                <div class="form-floating">
+                                    <input type="date" id="registerDOB" name="date_of_birth" class="form-control" />
+                                    <label for="registerDOB">Date of Birth</label>
+                                </div>
+
+
+                                <!-- Occupation -->
+                                <div class="form-floating">
+                                    <input type="text" id="registerOccupation" name="occupation" class="form-control" placeholder="Occupation" />
+                                    <label for="registerOccupation">Occupation</label>
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="form-floating">
+                                    <select id="registerGender" name="gender" class="form-control" required>
+                                        <option value="" disabled selected>Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <label for="registerGender">Gender</label>
+                                </div>
+
+                                <!-- House Number -->
+                                <div class="form-floating">
+                                    <input type="text" id="registerHouseNumber" name="house_number" class="form-control" placeholder="House Number" />
+                                    <label for="registerHouseNumber">House Number</label>
+                                </div>
+
+                                <!-- Village Name -->
+                                <div class="form-floating">
+                                    <input type="text" id="registerVillage" name="village_name" class="form-control" placeholder="Village Name" />
+                                    <label for="registerVillage">Village Name</label>
+                                </div>
+
+                                <!-- District -->
+                                <div class="form-floating">
+                                    <input type="text" id="registerDistrict" name="district" class="form-control" placeholder="District" />
+                                    <label for="registerDistrict">District</label>
+                                </div>
+
+                                <!-- State -->
+                                <div class="form-floating">
+                                    <input type="text" id="registerState" name="state" class="form-control" placeholder="State" />
+                                    <label for="registerState">State</label>
+                                </div>
+
+                                <!-- Pincode -->
+                                <div class="form-floating">
+                                    <input type="text" id="registerPincode" name="pincode" class="form-control" placeholder="Pincode" />
+                                    <label for="registerPincode">Pincode</label>
+                                </div>
+
+                                <!-- Password input -->
+                                <div class="form-floating">
+                                    <input type="password" id="registerPassword" name="password" class="form-control"
+                                        placeholder="Password" />
+                                    <label for="registerPassword">Password</label>
+                                </div>
+
+                                <!-- Repeat Password input -->
+                                <div class="form-floating">
+                                    <input type="password" id="registerRepeatPassword" name="password_confirm"
+                                        class="form-control" placeholder="Repeat password" />
+                                    <label for="registerRepeatPassword">Confirm password</label>
+                                </div>
+
+                                <!-- Checkbox -->
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" value="" id="registerCheck"
+                                        checked />
+                                    <label class="form-check-label" for="registerCheck">
+                                        I agree to the terms and conditions
+                                    </label>
+                                </div>
+
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">Sign up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'user/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

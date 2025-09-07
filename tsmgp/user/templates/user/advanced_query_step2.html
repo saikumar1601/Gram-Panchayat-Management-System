@@ -1,0 +1,56 @@
+{% extends "user/base.html" %}
+
+{% block title %}Advanced Query - Step 2{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Set Filters & Run Query</h2>
+    <form method="post" action="{% url 'advanced_query_step2' %}">
+        {% csrf_token %}
+
+        {% for table, columns in selected_tables.items %}
+        <h3>{{ table|title }} Table</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Column</th>
+                        <th>Operator</th>
+                        <th>Filter Value</th>
+                        <th>Display</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for column in columns %}
+                    <tr>
+                        <td>{{ column|title }}</td>
+                        <td>
+                            <select name="operator_{{ table }}_{{ column }}" class="form-control">
+                                <option value="=" selected>=</option>
+                                <option value=">">&gt;</option>
+                                <option value=">=">&gt;=</option>
+                                <option value="<">&lt;</option>
+                                <option value="<=">&lt;=</option>
+                                <!-- <option value="LIKE">LIKE</option>
+                                <option value="NOT LIKE">NOT LIKE</option>
+                                <option value="IS NULL">IS NULL</option>
+                                <option value="IS NOT NULL">IS NOT NULL</option> -->
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="filter_{{ table }}_{{ column }}" class="form-control">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="display_{{ table }}_{{ column }}" checked>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success">Run Query</button>
+    </form>
+</div>
+{% endblock %}

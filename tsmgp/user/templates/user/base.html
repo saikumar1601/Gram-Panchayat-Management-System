@@ -1,0 +1,244 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Django Site{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            /* Ensures the body takes at least the full viewport height */
+        }
+
+        .content-wrapper {
+            flex: 1;
+            /* This makes the content area expand to fill available space */
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 300px;
+            /* Reasonable height for a banner */
+            object-fit: cover;
+            /* Makes the image cover the container nicely */
+            margin-bottom: 20px;
+            /* Space between banner and content */
+        }
+        
+        /* Highlight animation class - changed to grey */
+        .highlight-section {
+            transition: background-color 0.3s ease;
+            background-color: rgba(128, 128, 128, 0.3);
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark" >
+        <div class="container">
+            <a class="navbar-brand" href="#" style="color: yellowgreen; "><b>TSMGP</b></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}" style="color: white;"><b>Home</b></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link scroll-link" href="{% if request.path != '/' %}{% url 'home' %}{% endif %}#about-section" style="color: white;"><b>About</b></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link scroll-link" href="#contact-section" style="color: white;"><b>Contact</b></a>
+                    </li>
+
+                    
+                    {% if request.session.role == "citizen" %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_village_info' request.session.user_id %}" style="color: white;">
+                                <b>View Village info</b>
+                            </a>
+                        </li>
+                    
+                {% endif %}
+
+                {% if request.session.user_id %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_notices' %}" style="color: white;">
+                                <b>Notices</b>
+                            </a>
+                        </li>
+                    
+                {% endif %}
+
+
+                
+                </ul>
+
+                <div class="navbar-nav">
+                    {% if not ignore_login_status and request.session.user_id %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style="color: white;">
+                            <b>{{request.session.username}}</b>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'dashboard' %}"><b>Profile</b></a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}"><b>Logout</b></a></li>
+                            <li><a class="dropdown-item" href="{% url 'delete_account' %}"><b>Delete Account</b></a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login_register' %}" style="color: white;"><b>Login/Register</b></a>
+                    </li>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner Image Below Navbar -->
+    <div class="container-fluid px-0">
+        <img src="{% static 'user/images/banner.jpeg' %}" alt="Banner Image" class="banner-image">
+        <!-- Fallback if static file doesn't exist -->
+        <noscript>
+            <img src="https://via.placeholder.com/1500x300" alt="Banner Image" class="banner-image">
+        </noscript>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="container mt-3">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <!-- Simple Footer -->
+    <footer class="py-4 bg-dark mt-4" id="contact-section">
+        <div class="container">
+            <div class="row justify-content-between">
+                <!-- Contact Information -->
+                <div class="col-md-4 text-center text-md-start mb-4 mb-md-0">
+                    <h5 class="text-light mb-3">Gram Panchayat Office</h5>
+                    <p class="text-light mb-2">
+                        <i class="fas fa-phone-alt me-2"></i> Phone: +91 1234567890
+                    </p>
+                    <p class="text-light mb-2">
+                        <i class="fas fa-envelope me-2"></i> Email: contact@grampanchayat.gov.in
+                    </p>
+                    <p class="text-light mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i> Address: Gram Panchayat Building, Village Center
+                    </p>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="col-md-4 text-center">
+                    <h5 class="text-light mb-3">Connect With Us</h5>
+                    <div class="social-links mb-3" style="margin-top: 15px;">
+                        <a href="https://www.facebook.com" target="_blank" class="mx-2">
+                            <img src="{% static 'user/images/facebook.png' %}" alt="Facebook" 
+                                 style="width: 30px; height: 30px;">
+                        </a>
+                        <a href="https://www.youtube.com" target="_blank" class="mx-2">
+                            <img src="{% static 'user/images/youtube.webp' %}" alt="YouTube" 
+                                 style="width: 30px; height: 30px;">
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Office Hours -->
+                <div class="col-md-4 text-center mb-4 mb-md-0">
+                    <h5 class="text-light mb-3">Office Hours</h5>
+                    <p class="text-light mb-2">Monday - Friday: 9:00 AM - 5:00 PM</p>
+                    <p class="text-light mb-2">Saturday: 9:00 AM - 1:00 PM</p>
+                    <p class="text-light mb-2">Sunday: Closed</p>
+                </div>
+                
+                
+            </div>
+            
+            <hr class="bg-secondary my-2">
+            
+            <!-- Copyright Notice -->
+            <div class="text-center text-light">
+                <p class="mb-0">&copy; {% now "Y" %} TSM Gram Panchayat. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Script to handle missing image -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var bannerImg = document.querySelector('.banner-image');
+            bannerImg.onerror = function () {
+                this.src = 'https://via.placeholder.com/1500x300';
+            };
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a.scroll-link').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    // Get the hash from the href
+                    const href = this.getAttribute('href');
+                    const targetId = href.includes('#') ? href.substring(href.indexOf('#')) : null;
+                    
+                    // Only prevent default if we have a hash to scroll to on the current page
+                    if (targetId && document.querySelector(targetId)) {
+                        e.preventDefault();
+                        
+                        // Scroll to the target section
+                        const targetElement = document.querySelector(targetId);
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // Offset for navbar
+                            behavior: 'smooth'
+                        });
+                        
+                        // Add highlight class
+                        targetElement.classList.add('highlight-section');
+                        
+                        // Remove highlight class after 1 second
+                        setTimeout(() => {
+                            targetElement.classList.remove('highlight-section');
+                        }, 1000);
+                    }
+                });
+            });
+            
+            // Check if URL contains an anchor
+            if (window.location.hash) {
+                const targetElement = document.querySelector(window.location.hash);
+                if (targetElement) {
+                    // Wait for page to fully load before scrolling
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // Offset for navbar
+                            behavior: 'auto'
+                        });
+                        
+                        // Add highlight class
+                        targetElement.classList.add('highlight-section');
+                        
+                        // Remove highlight class after 1 second
+                        setTimeout(() => {
+                            targetElement.classList.remove('highlight-section');
+                        }, 100);
+                    }, 300);
+                }
+            }
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>
